@@ -1,10 +1,9 @@
-import { type ReactNode, useState } from 'react';
 import { FilterIcon, SearchIcon, XIcon } from 'lucide-react';
+import { type ReactNode, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
     Drawer,
-    DrawerClose,
     DrawerContent,
     DrawerDescription,
     DrawerFooter,
@@ -23,7 +22,6 @@ import {
 } from '@/components/ui/select';
 import {
     Sheet,
-    SheetClose,
     SheetContent,
     SheetDescription,
     SheetFooter,

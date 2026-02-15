@@ -1,10 +1,16 @@
-import { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import type { ColumnDef } from '@tanstack/react-table';
 import { EllipsisVerticalIcon, PlusIcon } from 'lucide-react';
-import Heading from '@/components/heading';
+import { useState } from 'react';
+import {
+    index,
+    create,
+    edit,
+    destroy,
+} from '@/actions/App/Http/Controllers/Admin/UserController';
 import { DataTable } from '@/components/data-table';
 import type { ServerFilterConfig } from '@/components/data-table';
+import Heading from '@/components/heading';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -26,12 +32,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useInitials } from '@/hooks/use-initials';
 import AppLayout from '@/layouts/app-layout';
-import {
-    index,
-    create,
-    edit,
-    destroy,
-} from '@/actions/App/Http/Controllers/Admin/UserController';
 import { dashboard as adminDashboard } from '@/routes/admin';
 import type { BreadcrumbItem } from '@/types';
 

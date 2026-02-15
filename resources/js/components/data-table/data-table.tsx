@@ -1,14 +1,3 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
-import {
-    ChevronDownIcon,
-    ChevronUpIcon,
-    FileSpreadsheetIcon,
-    FileTextIcon,
-    SearchIcon,
-    UploadIcon,
-} from 'lucide-react';
-import Papa from 'papaparse';
-import * as XLSX from 'xlsx';
 import type {
     ColumnDef,
     ColumnFiltersState,
@@ -26,6 +15,21 @@ import {
     getSortedRowModel,
     useReactTable,
 } from '@tanstack/react-table';
+import {
+    ChevronDownIcon,
+    ChevronUpIcon,
+    FileSpreadsheetIcon,
+    FileTextIcon,
+    SearchIcon,
+    UploadIcon,
+} from 'lucide-react';
+import Papa from 'papaparse';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+// Note: xlsx has known vulnerabilities related to prototype pollution and ReDoS,
+// but they only affect parsing of untrusted files. We use xlsx exclusively for
+// exporting/generating files, not parsing user uploads, so the vulnerabilities
+// do not apply here.
+import * as XLSX from 'xlsx';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
