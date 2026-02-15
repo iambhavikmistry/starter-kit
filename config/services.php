@@ -28,11 +28,68 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | OAuth / Social Login
+    |--------------------------------------------------------------------------
+    |
+    | OAuth credentials are managed in Admin → System Settings → Authentication.
+    | Config below provides structure only; values are injected at runtime from
+    | the database. Do not set these in .env.
+    |
+    */
+
     'slack' => [
+        'client_id' => null,
+        'client_secret' => null,
+        'redirect' => null,
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
+    ],
+
+    'github' => [
+        'client_id' => null,
+        'client_secret' => null,
+        'redirect' => null,
+    ],
+
+    'google' => [
+        'client_id' => null,
+        'client_secret' => null,
+        'redirect' => null,
+    ],
+
+    'facebook' => [
+        'client_id' => null,
+        'client_secret' => null,
+        'redirect' => null,
+    ],
+
+    'twitter' => [
+        'client_id' => null,
+        'client_secret' => null,
+        'redirect' => null,
+        'oauth' => 2,
+    ],
+
+    'linkedin' => [
+        'client_id' => null,
+        'client_secret' => null,
+        'redirect' => null,
+    ],
+
+    'gitlab' => [
+        'client_id' => null,
+        'client_secret' => null,
+        'redirect' => null,
+    ],
+
+    'bitbucket' => [
+        'client_id' => null,
+        'client_secret' => null,
+        'redirect' => null,
     ],
 
 ];

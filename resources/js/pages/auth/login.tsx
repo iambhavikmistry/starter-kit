@@ -7,20 +7,26 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
+import { getOAuthProviderLabel } from '@/lib/oauth';
+import { redirect as oauthRedirect } from '@/actions/App/Http/Controllers/Auth/OAuthController';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 
 type Props = {
     status?: string;
+    error?: string;
     canResetPassword: boolean;
     canRegister: boolean;
+    oauthProviders: string[];
 };
 
 export default function Login({
     status,
+    error,
     canResetPassword,
     canRegister,
+    oauthProviders = [],
 }: Props) {
     return (
         <AuthLayout
@@ -29,8 +35,15 @@ export default function Login({
         >
             <Head title="Log in" />
 
+            {error && (
+                <div className="mb-4 rounded-md bg-destructive/15 p-3 text-center text-sm font-medium text-destructive">
+                    {error}
+                </div>
+            )}
+
             <Form
-                {...store.form()}
+                action={store.url()}
+                method="post"
                 resetOnSuccess={['password']}
                 className="flex flex-col gap-6"
             >
@@ -96,12 +109,47 @@ export default function Login({
                                 {processing && <Spinner />}
                                 Log in
                             </Button>
+
+                            {oauthProviders.length > 0 && (
+                                <>
+                                    <div className="relative my-4">
+                                        <div className="absolute inset-0 flex items-center">
+                                            <span className="w-full border-t" />
+                                        </div>
+                                        <div className="relative flex justify-center text-xs uppercase">
+                                            <span className="bg-background px-2 text-muted-foreground">
+                                                Or continue with
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-1 gap-2">
+                                        {oauthProviders.map((provider) => (
+                                            <Button
+                                                key={provider}
+                                                type="button"
+                                                variant="outline"
+                                                className="w-full"
+                                                asChild
+                                            >
+                                                <a
+                                                    href={oauthRedirect.url({
+                                                        provider,
+                                                    })}
+                                                    data-test={`oauth-${provider}-button`}
+                                                >
+                                                    {getOAuthProviderLabel(provider)}
+                                                </a>
+                                            </Button>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
                         </div>
 
                         {canRegister && (
                             <div className="text-center text-sm text-muted-foreground">
                                 Don't have an account?{' '}
-                                <TextLink href={register()} tabIndex={5}>
+                                <TextLink href={register()} tabIndex={6}>
                                     Sign up
                                 </TextLink>
                             </div>

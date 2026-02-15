@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Auth\OAuthController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -11,6 +12,11 @@ Route::get('/', function () {
         'canRegister' => Features::enabled(Features::registration()),
     ]);
 })->name('home');
+
+Route::get('auth/{provider}/redirect', [OAuthController::class, 'redirect'])
+    ->name('oauth.redirect');
+Route::get('auth/{provider}/callback', [OAuthController::class, 'callback'])
+    ->name('oauth.callback');
 
 Route::get('dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])

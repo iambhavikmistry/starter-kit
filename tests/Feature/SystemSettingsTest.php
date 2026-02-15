@@ -84,6 +84,22 @@ test('system settings page can filter by group', function () {
         );
 });
 
+test('system settings auth group shows oauth provider settings', function () {
+    $this->seed(SettingSeeder::class);
+
+    $user = User::factory()->create();
+    $user->assignRole(RoleEnum::Admin->value);
+
+    $this->actingAs($user)
+        ->get(route('admin.system-settings.index', ['group' => 'auth']))
+        ->assertSuccessful()
+        ->assertInertia(fn ($page) => $page
+            ->where('activeGroup', 'auth')
+            ->has('settings', 39)
+            ->has('groups')
+        );
+});
+
 test('system settings page falls back to general for invalid group', function () {
     $this->seed(SettingSeeder::class);
 

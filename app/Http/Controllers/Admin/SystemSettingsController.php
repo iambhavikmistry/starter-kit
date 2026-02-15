@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\SettingGroup;
+use App\Http\Controllers\Auth\OAuthController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SystemSettings\UpdateSettingsRequest;
 use App\Models\Setting;
@@ -36,11 +37,26 @@ class SystemSettingsController extends Controller
             'description' => $g->description(),
         ]);
 
-        return Inertia::render('admin/system-settings/index', [
+        $props = [
             'settings' => $settings,
             'groups' => $groups,
             'activeGroup' => $activeGroup->value,
-        ]);
+        ];
+
+        if ($activeGroup === SettingGroup::Auth) {
+            $props['oauthCallbackUrls'] = [
+                'facebook' => OAuthController::getCallbackUrlForProvider('facebook'),
+                'twitter' => OAuthController::getCallbackUrlForProvider('twitter'),
+                'linkedin' => OAuthController::getCallbackUrlForProvider('linkedin'),
+                'google' => OAuthController::getCallbackUrlForProvider('google'),
+                'github' => OAuthController::getCallbackUrlForProvider('github'),
+                'gitlab' => OAuthController::getCallbackUrlForProvider('gitlab'),
+                'bitbucket' => OAuthController::getCallbackUrlForProvider('bitbucket'),
+                'slack' => OAuthController::getCallbackUrlForProvider('slack'),
+            ];
+        }
+
+        return Inertia::render('admin/system-settings/index', $props);
     }
 
     /**

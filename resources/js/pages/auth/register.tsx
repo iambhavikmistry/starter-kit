@@ -6,10 +6,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
+import { getOAuthProviderLabel } from '@/lib/oauth';
+import { redirect as oauthRedirect } from '@/actions/App/Http/Controllers/Auth/OAuthController';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 
-export default function Register() {
+type Props = {
+    oauthProviders: string[];
+};
+
+export default function Register({ oauthProviders = [] }: Props) {
     return (
         <AuthLayout
             title="Create an account"
@@ -17,7 +23,8 @@ export default function Register() {
         >
             <Head title="Register" />
             <Form
-                {...store.form()}
+                action={store.url()}
+                method="post"
                 resetOnSuccess={['password', 'password_confirmation']}
                 disableWhileProcessing
                 className="flex flex-col gap-6"
@@ -98,6 +105,41 @@ export default function Register() {
                                 {processing && <Spinner />}
                                 Create account
                             </Button>
+
+                            {oauthProviders.length > 0 && (
+                                <>
+                                    <div className="relative my-4">
+                                        <div className="absolute inset-0 flex items-center">
+                                            <span className="w-full border-t" />
+                                        </div>
+                                        <div className="relative flex justify-center text-xs uppercase">
+                                            <span className="bg-background px-2 text-muted-foreground">
+                                                Or continue with
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-1 gap-2">
+                                        {oauthProviders.map((provider) => (
+                                            <Button
+                                                key={provider}
+                                                type="button"
+                                                variant="outline"
+                                                className="w-full"
+                                                asChild
+                                            >
+                                                <a
+                                                    href={oauthRedirect.url({
+                                                        provider,
+                                                    })}
+                                                    data-test={`oauth-${provider}-button`}
+                                                >
+                                                    {getOAuthProviderLabel(provider)}
+                                                </a>
+                                            </Button>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
                         </div>
 
                         <div className="text-center text-sm text-muted-foreground">
