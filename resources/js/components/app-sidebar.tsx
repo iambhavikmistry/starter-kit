@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -12,17 +12,12 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useRoles } from '@/hooks/use-roles';
+import { adminNavItems, userNavItems } from '@/lib/navigation';
+import { dashboard } from '@/routes';
+import { dashboard as adminDashboard } from '@/routes/admin';
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
-import { dashboard } from '@/routes';
-
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-];
 
 const footerNavItems: NavItem[] = [
     {
@@ -38,13 +33,19 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const { isAdmin } = useRoles();
+
+    const mainNavItems = isAdmin ? adminNavItems : userNavItems;
+    const homeUrl = isAdmin ? adminDashboard() : dashboard();
+    const navLabel = isAdmin ? 'Admin Panel' : 'Platform';
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href={homeUrl} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -53,7 +54,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={mainNavItems} label={navLabel} />
             </SidebarContent>
 
             <SidebarFooter>

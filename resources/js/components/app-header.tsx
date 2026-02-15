@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
+import { BookOpen, Folder, Menu, Search } from 'lucide-react';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -30,23 +30,18 @@ import {
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { useInitials } from '@/hooks/use-initials';
+import { useRoles } from '@/hooks/use-roles';
 import { cn, toUrl } from '@/lib/utils';
+import { adminNavItems, userNavItems } from '@/lib/navigation';
+import { dashboard } from '@/routes';
+import { dashboard as adminDashboard } from '@/routes/admin';
 import type { BreadcrumbItem, NavItem } from '@/types';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
-import { dashboard } from '@/routes';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
 };
-
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-];
 
 const rightNavItems: NavItem[] = [
     {
@@ -69,6 +64,11 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
     const { auth } = page.props;
     const getInitials = useInitials();
     const { isCurrentUrl, whenCurrentUrl } = useCurrentUrl();
+    const { isAdmin } = useRoles();
+
+    const mainNavItems = isAdmin ? adminNavItems : userNavItems;
+    const homeUrl = isAdmin ? adminDashboard() : dashboard();
+
     return (
         <>
             <div className="border-b border-sidebar-border/80">
@@ -135,7 +135,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                     </div>
 
                     <Link
-                        href={dashboard()}
+                        href={homeUrl}
                         prefetch
                         className="flex items-center space-x-2"
                     >
@@ -223,17 +223,17 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 >
                                     <Avatar className="size-8 overflow-hidden rounded-full">
                                         <AvatarImage
-                                            src={auth.user.avatar}
-                                            alt={auth.user.name}
+                                            src={auth.user?.avatar}
+                                            alt={auth.user?.name}
                                         />
                                         <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                            {getInitials(auth.user.name)}
+                                            {getInitials(auth.user?.name ?? '')}
                                         </AvatarFallback>
                                     </Avatar>
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-56" align="end">
-                                <UserMenuContent user={auth.user} />
+                                {auth.user && <UserMenuContent user={auth.user} />}
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
