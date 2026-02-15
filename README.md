@@ -291,7 +291,7 @@ php artisan view:cache
 ## 🐛 Known Issues & Notes
 
 ### xlsx Library
-The project uses `xlsx` (SheetJS) for exporting data tables to Excel format. While this library has known vulnerabilities (CVE-2023-XXXXX), they **only affect parsing of untrusted files**. This project uses xlsx exclusively for **generating/exporting** files, not parsing user uploads, so the vulnerabilities do not apply.
+The project uses `xlsx` (SheetJS) for exporting data tables to Excel format. While this library has known vulnerabilities related to prototype pollution and ReDoS attacks, they **only affect parsing of untrusted files**. This project uses xlsx exclusively for **generating/exporting** files, not parsing user uploads, so the vulnerabilities do not apply.
 
 If you need to parse uploaded Excel files, consider using a server-side solution or an alternative library.
 
