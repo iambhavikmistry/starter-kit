@@ -25,7 +25,7 @@ export function NavMain({
     items: NavItem[];
     label?: string;
 }) {
-    const { currentUrl, isCurrentUrl } = useCurrentUrl();
+    const { isCurrentUrl } = useCurrentUrl();
 
     return (
         <SidebarGroup className="px-2 py-0">
@@ -36,7 +36,6 @@ export function NavMain({
                         <CollapsibleNavItem
                             key={item.title}
                             item={item}
-                            currentUrl={currentUrl}
                             isCurrentUrl={isCurrentUrl}
                         />
                     ) : (
@@ -61,11 +60,9 @@ export function NavMain({
 
 function CollapsibleNavItem({
     item,
-    currentUrl,
     isCurrentUrl,
 }: {
     item: NavItem;
-    currentUrl: string;
     isCurrentUrl: (href: NonNullable<NavItem['href']>) => boolean;
 }) {
     const hasActiveChild = item.children?.some(

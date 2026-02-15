@@ -1,4 +1,8 @@
 import { Head, Link, useForm } from '@inertiajs/react';
+import {
+    index,
+    store,
+} from '@/actions/App/Http/Controllers/Admin/UserController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -13,10 +17,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import {
-    index,
-    store,
-} from '@/actions/App/Http/Controllers/Admin/UserController';
 import { dashboard as adminDashboard } from '@/routes/admin';
 import type { BreadcrumbItem } from '@/types';
 

@@ -1,4 +1,5 @@
 import { Form, Head } from '@inertiajs/react';
+import { redirect as oauthRedirect } from '@/actions/App/Http/Controllers/Auth/OAuthController';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 import { getOAuthProviderLabel } from '@/lib/oauth';
-import { redirect as oauthRedirect } from '@/actions/App/Http/Controllers/Auth/OAuthController';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';

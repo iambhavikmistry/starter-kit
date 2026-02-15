@@ -1,9 +1,15 @@
-import { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import type { ColumnDef } from '@tanstack/react-table';
 import { EllipsisVerticalIcon, PlusIcon, ShieldIcon } from 'lucide-react';
-import Heading from '@/components/heading';
+import { useState } from 'react';
+import {
+    index,
+    create,
+    edit,
+    destroy,
+} from '@/actions/App/Http/Controllers/Admin/RoleController';
 import { DataTable } from '@/components/data-table';
+import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -23,12 +29,6 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import AppLayout from '@/layouts/app-layout';
-import {
-    index,
-    create,
-    edit,
-    destroy,
-} from '@/actions/App/Http/Controllers/Admin/RoleController';
 import { dashboard as adminDashboard } from '@/routes/admin';
 import type { BreadcrumbItem } from '@/types';
 

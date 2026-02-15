@@ -1,14 +1,13 @@
-import React from 'react';
 import { Transition } from '@headlessui/react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Check, Copy, Eye, EyeOff, Shield } from 'lucide-react';
+import React from 'react';
+import { index, update } from '@/actions/App/Http/Controllers/Admin/SystemSettingsController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Textarea } from '@/components/ui/textarea';
 import {
     Select,
     SelectContent,
@@ -16,11 +15,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import AppLayout from '@/layouts/app-layout';
-import type { BreadcrumbItem } from '@/types';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { useClipboard } from '@/hooks/use-clipboard';
+import AppLayout from '@/layouts/app-layout';
 import { dashboard as adminDashboard } from '@/routes/admin';
-import { index, update } from '@/actions/App/Http/Controllers/Admin/SystemSettingsController';
+import type { BreadcrumbItem } from '@/types';
 
 type Setting = {
     id: string;
@@ -521,7 +521,6 @@ export default function SystemSettings({
 function AuthSocialProviderCard({
     providerLabel,
     providerId,
-    settings: providerSettings,
     settingsByKey,
     callbackUrl,
     data,
